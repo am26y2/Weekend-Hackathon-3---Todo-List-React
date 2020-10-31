@@ -7,7 +7,7 @@ function App() {
 
   const ToDoList = (props) => {
     const { item, onDelete, id } = props;
-    if (item === "") return null;
+    if (!item || !item.trim()) return null;
     return (
       <>
         <div className="row">
@@ -36,9 +36,6 @@ function App() {
   };
   return (
     <div id="main">
-      <div className="header">
-        <h1>ToDo-List</h1>
-      </div>
       <div>
         <input
           id="task"
