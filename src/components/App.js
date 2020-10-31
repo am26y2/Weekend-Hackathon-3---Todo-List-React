@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import "./../styles/App.css";
-
 function App() {
   const [listItem, setListItem] = useState([]);
   const [input, setinput] = useState("");
 
   const ToDoList = (props) => {
-    const { item, onDelete, id } = props;
+    const { item, onDelete, id, onEdit } = props;
     if (!item || !item.trim()) return null;
     return (
       <>
-        <div className="row">
+        <div className="list">
           <li>{item}</li>
           <button onClick={() => onDelete(id)}>
             <span>❌</span>
+          </button>
+          <button onClick={() => onEdit(id)}>
+            <span>✍️</span>
           </button>
         </div>
       </>
@@ -24,9 +26,13 @@ function App() {
     setListItem(filtervalue);
     console.log(id);
   };
+
+  const handleEdit = (id) => {
+    console.log(id);
+  };
+
   const handleChange = (event) => {
     setinput(event.target.value);
-    console.log("clicked");
   };
 
   const additem = () => {
@@ -36,6 +42,7 @@ function App() {
   };
   return (
     <div id="main">
+      <h1>ToDoList</h1>
       <div>
         <input
           id="task"
@@ -58,6 +65,7 @@ function App() {
                 key={index}
                 id={index}
                 onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             );
           })}
