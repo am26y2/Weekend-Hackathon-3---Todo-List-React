@@ -6,6 +6,9 @@ function App() {
 
   const ToDoList = (props) => {
     const { item, onDelete, id, onEdit } = props;
+    const [edit, setEdit] = useState(false);
+    const [save, setSave] = useState(false);
+    const [editvalue, setEditvalue] = useState("");
     if (!item || !item.trim()) return null;
     return (
       <>
@@ -14,9 +17,44 @@ function App() {
           <button onClick={() => onDelete(id)}>
             <span>❌</span>
           </button>
-          <button onClick={() => onEdit(id)}>
+          <button
+            onClick={() => {
+              if (edit) {
+                setEdit(false);
+                setSave(false);
+              } else setEdit(true);
+            }}
+          >
             <span>✍️</span>
           </button>
+          {edit ? (
+            <input
+              id="task"
+              type="input"
+              placeholder="AddItem"
+              onChange={(event) => {
+                if (event.target.value.length >= 1) setSave(true);
+                else setSave(false);
+                setEditvalue(event.target.value);
+              }}
+            />
+          ) : (
+            ""
+          )}
+          {save ? (
+            <button
+              onClick={() => {
+                onEdit(id, editvalue);
+                setEdit("");
+                setSave(false);
+                setEdit(false);
+              }}
+            >
+              save
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </>
     );
@@ -27,8 +65,10 @@ function App() {
     console.log(id);
   };
 
-  const handleEdit = (id) => {
-    console.log(id);
+  const handleEdit = (id, value) => {
+    const item_copy = [...listItem];
+    item_copy[id] = value;
+    setListItem(item_copy);
   };
 
   const handleChange = (event) => {
